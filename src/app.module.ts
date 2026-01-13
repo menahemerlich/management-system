@@ -8,7 +8,7 @@ import { AssignmentsModule } from './assignments/assignments.module';
 
 @Module({
   imports: [AuthModule, UsersModule, ShiftsModule, AssignmentsModule],
-  controllers: [AppController],
+  controllers: [AppController, ],
   providers: [AppService],
 })
 export class AppModule {}

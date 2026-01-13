@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller,Request, Get, Post, Body, Patch, Param, Delete, UseGuards, Headers } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { RolesGuard, TokenGuard } from 'src/roles/roles.guard';
 
 @Controller('users')
 export class UsersController {
@@ -12,9 +13,16 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
+  @UseGuards(RolesGuard)
   @Get()
-  findAll() {
+  findAll() {    
     return this.usersService.findAll();
+  }
+
+  @UseGuards(TokenGuard)
+  @Get("user")
+  findUser(@Request() req: any) {        
+    return this.usersService.findUser(req.user);
   }
 
   @Get(':id')

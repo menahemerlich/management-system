@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
 import { LoginAuthDto } from './dto/login-auth-dto';
+import { Roles } from 'src/roles/roles.decorator';
+import { RolesGuard } from 'src/roles/roles.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -18,8 +20,9 @@ export class AuthController {
     return this.authService.signIn(loginAuthDto);
   }
 
+  @UseGuards(RolesGuard)
   @Get()
-  findAll() {
+  async findAll() {
     return this.authService.findAll();
   }
 
